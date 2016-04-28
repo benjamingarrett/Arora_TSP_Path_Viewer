@@ -1,0 +1,3 @@
+Arora TSP Path Viewer is a java utility used for visualizing the results of having solved an instance of the traveling salesman problem using the a100 solver.
+
+This utility features a dialog window which allows the user to choose a tspr file to visualize.

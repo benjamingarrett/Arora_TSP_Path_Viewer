@@ -35,8 +35,10 @@ public class Arora_TSP_Path_Viewer extends JFrame {
             "Display Partitions and Portals";
     private boolean displayPartitionsAndPortals;
     
-    private final String DISPLAY_ARORA = "Display Arora Path";
-    private boolean displayArora;
+    private final String DISPLAY_ARORA_TOUR = "Display Arora Tour";
+    private boolean displayAroraTour;
+    private final String DISPLAY_ARORA_PATH = "Display Arora Path";
+    private boolean displayAroraPath;
     private final String DISPLAY_ACO = "Display ACO Tour";
     private boolean displayAco;
     private final String DISPLAY_OPTIMAL = "Display Optimal Tour";
@@ -56,10 +58,6 @@ public class Arora_TSP_Path_Viewer extends JFrame {
     
     private final String COMMENT = "COMMENT:";
     private String instance_comment;
-    
-    private final String ORIGINAL_POINTS = "ORIGINAL_POINTS:";
-    private PathPoint2D [] originalPoint;
-    private int numOriginalPoints;
     
     private final String DATA_POINTS = "DATA_POINTS:";
     private PathPoint2D [] dataPoint;
@@ -123,7 +121,6 @@ public class Arora_TSP_Path_Viewer extends JFrame {
         displayOriginalPoints = false;
         displayDataPoints = false;
         
-        numOriginalPoints = 0;
         numDataPoints = 0;
         numPortalPoints = 0;
         numPartitions = 0;
@@ -143,7 +140,7 @@ public class Arora_TSP_Path_Viewer extends JFrame {
         Container c = new Container();
         
         Object[] possibilities = { 
-            DISPLAY_ARORA, DISPLAY_PARTITIONS, DISPLAY_PARTITIONS_AND_PORTALS, 
+            DISPLAY_ARORA_TOUR, DISPLAY_ARORA_PATH, DISPLAY_PARTITIONS, DISPLAY_PARTITIONS_AND_PORTALS, 
             DISPLAY_CONCORDE, DISPLAY_OPTIMAL };
         
         String s = (String)JOptionPane.showInputDialog(
@@ -153,12 +150,18 @@ public class Arora_TSP_Path_Viewer extends JFrame {
                 JOptionPane.PLAIN_MESSAGE,
                 null,
                 possibilities,
-                DISPLAY_ARORA);
+                DISPLAY_ARORA_PATH);
         
-        if( s.compareTo(DISPLAY_ARORA)==0 ){
-            displayArora = true;
+        if( s.compareTo(DISPLAY_ARORA_TOUR)==0 ){
+            displayAroraTour = true;
         } else {
-            displayArora = false;
+            displayAroraTour = false;
+        }
+        
+        if( s.compareTo(DISPLAY_ARORA_PATH)==0 ){
+            displayAroraPath = true;
+        } else {
+            displayAroraPath = false;
         }
         
         if( s.compareTo(DISPLAY_PARTITIONS)==0 ){
@@ -231,21 +234,6 @@ public class Arora_TSP_Path_Viewer extends JFrame {
                     System.out.print(result[i] + " ");
                 }
                 System.out.print("\n");                    
-            }
-            /* original points */
-            if(result[0].compareTo(ORIGINAL_POINTS)==0){
-                System.out.println("Original points found: ");
-                numOriginalPoints = (new Integer(result[1])).intValue();
-                System.out.println("numOriginalPoints = " + numOriginalPoints );
-                originalPoint = new PathPoint2D[numOriginalPoints];
-                for(i=0; i < numOriginalPoints; i++){
-                    s = br.readLine();
-                    result = s.split("\\s");
-                    x = new Double(result[0]);
-                    y = new Double(result[1]);
-                    originalPoint[i] = new PathPoint2D( PathPoint2D.DATA_POINT );
-                    originalPoint[i].setLocation(x.doubleValue(), y.doubleValue());
-                }
             }
             /* data points */
             if(result[0].compareTo(DATA_POINTS)==0){
@@ -460,13 +448,15 @@ public class Arora_TSP_Path_Viewer extends JFrame {
         boundingBoxBottom = new Line2D.Double( minX, minY, maxX, minY );
         boundingBoxLeft = new Line2D.Double( minX, minY, minX, maxY );
         // originalPoint
-        if(numOriginalPoints > 0){
-            for(i=0; i<originalPoint.length; i++){
-                x = ( (originalPoint[i].getX() + dx1) * alpha ) + dx2;
-                y = ( (originalPoint[i].getY() + dy1) * (-1) * alpha ) + dy2;
-                originalPoint[i].setLocation(x, y);
-            }
-        }
+        
+//        if(numOriginalPoints > 0){
+//            for(i=0; i<originalPoint.length; i++){
+//                x = ( (originalPoint[i].getX() + dx1) * alpha ) + dx2;
+//                y = ( (originalPoint[i].getY() + dy1) * (-1) * alpha ) + dy2;
+//                originalPoint[i].setLocation(x, y);
+//            }
+//        }
+        
         // dataPoint
         if(numDataPoints > 0){
             for(i=0; i<dataPoint.length; i++){
@@ -571,16 +561,16 @@ public class Arora_TSP_Path_Viewer extends JFrame {
         
         
         // originalPoint
-        if(displayOriginalPoints){
-            if(numOriginalPoints > 0){
-                g2d.setPaint(Color.blue);
-                for(i=0; i<originalPoint.length; i++){
-                    new_x = (int)originalPoint[i].getX() - (int)(OVAL_DIAMETER/2);
-                    new_y = (int)originalPoint[i].getY() - (int)(OVAL_DIAMETER/2);
-                    g2d.drawOval(new_x, new_y, OVAL_DIAMETER, OVAL_DIAMETER);
-                }
-            }
-        }
+//        if(displayOriginalPoints){
+//            if(numOriginalPoints > 0){
+//                g2d.setPaint(Color.blue);
+//                for(i=0; i<originalPoint.length; i++){
+//                    new_x = (int)originalPoint[i].getX() - (int)(OVAL_DIAMETER/2);
+//                    new_y = (int)originalPoint[i].getY() - (int)(OVAL_DIAMETER/2);
+//                    g2d.drawOval(new_x, new_y, OVAL_DIAMETER, OVAL_DIAMETER);
+//                }
+//            }
+//        }
         
         
         // dataPoint
@@ -685,7 +675,7 @@ public class Arora_TSP_Path_Viewer extends JFrame {
         }
         
         
-        if(displayArora){
+        if(displayAroraPath){
             
             // portalPoint
             if(numPortalPoints > 0){
