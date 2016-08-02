@@ -31,9 +31,9 @@ public class Arora_TSP_Path_Viewer extends JFrame {
     private final String DISPLAY_PARTITIONS = "Display Partitions";
     private boolean displayPartitions;
     
-    private final String DISPLAY_PARTITIONS_AND_PORTALS = 
-            "Display Partitions and Portals";
-    private boolean displayPartitionsAndPortals;
+    private final String DISPLAY_PORTALS = 
+            "Display Portals";
+    private boolean displayPortals;
     
     private final String DISPLAY_ARORA_TOUR = "Display Arora Tour";
     private boolean displayAroraTour;
@@ -140,58 +140,68 @@ public class Arora_TSP_Path_Viewer extends JFrame {
         Container c = new Container();
         
         Object[] possibilities = { 
-            DISPLAY_ARORA_TOUR, DISPLAY_ARORA_PATH, DISPLAY_PARTITIONS, DISPLAY_PARTITIONS_AND_PORTALS, 
+            DISPLAY_ARORA_TOUR, DISPLAY_ARORA_PATH, DISPLAY_PARTITIONS, DISPLAY_PORTALS, 
             DISPLAY_CONCORDE, DISPLAY_OPTIMAL };
         
-        String s = (String)JOptionPane.showInputDialog(
-                c,
-                "Choose which tour to display",
-                "Display type dialog",
-                JOptionPane.PLAIN_MESSAGE,
-                null,
-                possibilities,
-                DISPLAY_ARORA_PATH);
+//        String s = (String)JOptionPane.showInputDialog(
+//                c,
+//                "Choose which tour to display",
+//                "Display type dialog",
+//                JOptionPane.PLAIN_MESSAGE,
+//                null,
+//                possibilities,
+//                DISPLAY_ARORA_PATH);
         
-        if( s.compareTo(DISPLAY_ARORA_TOUR)==0 ){
-            displayAroraTour = true;
-        } else {
-            displayAroraTour = false;
-        }
+//        if( s.compareTo(DISPLAY_ARORA_TOUR)==0 ){
+//            displayAroraTour = true;
+//        } else {
+//            displayAroraTour = false;
+//        }
+//        
+//        if( s.compareTo(DISPLAY_ARORA_PATH)==0 ){
+//            displayAroraPath = true;
+//        } else {
+//            displayAroraPath = false;
+//        }
+//        
+//        if( s.compareTo(DISPLAY_PARTITIONS)==0 ){
+//            displayPartitions = true;
+//        } else {
+//            displayPartitions = false;
+//        }
+//        
+//        if( s.compareTo(DISPLAY_PORTALS)==0 ){
+//            displayPortals = true;
+//        } else {
+//            displayPortals = false;
+//        }
+//        
+//        if( s.compareTo(DISPLAY_CONCORDE)==0 ){
+//            displayConcorde = true;
+//        } else {
+//            displayConcorde = false;
+//        }
+//        
+//        if( s.compareTo(DISPLAY_ACO)==0 ){
+//            displayAco = true;
+//        } else {
+//            displayAco = false;
+//        }
+//        if( s.compareTo(DISPLAY_OPTIMAL)==0 ){
+//            displayOptimal = true;
+//        } else {
+//            displayOptimal = false;
+//        }
         
-        if( s.compareTo(DISPLAY_ARORA_PATH)==0 ){
-            displayAroraPath = true;
-        } else {
-            displayAroraPath = false;
-        }
+        displayDataPoints = true;
+        displayPortals = true;
+        displayPartitions = true;
+        displayAroraPath = true;
+        displayAroraTour = true;
+        displayConcorde = false;
+        displayAco = false;
+        displayOptimal = false;
         
-        if( s.compareTo(DISPLAY_PARTITIONS)==0 ){
-            displayPartitions = true;
-        } else {
-            displayPartitions = false;
-        }
-        
-        if( s.compareTo(DISPLAY_PARTITIONS_AND_PORTALS)==0 ){
-            displayPartitionsAndPortals = true;
-        } else {
-            displayPartitionsAndPortals = false;
-        }
-        
-        if( s.compareTo(DISPLAY_CONCORDE)==0 ){
-            displayConcorde = true;
-        } else {
-            displayConcorde = false;
-        }
-        
-        if( s.compareTo(DISPLAY_ACO)==0 ){
-            displayAco = true;
-        } else {
-            displayAco = false;
-        }
-        if( s.compareTo(DISPLAY_OPTIMAL)==0 ){
-            displayOptimal = true;
-        } else {
-            displayOptimal = false;
-        }
         
         JFileChooser fc = new JFileChooser();
         int returnVal = fc.showOpenDialog(c);
@@ -572,8 +582,7 @@ public class Arora_TSP_Path_Viewer extends JFrame {
 //            }
 //        }
         
-        
-        // dataPoint
+
         if(displayDataPoints){
             if(numDataPoints > 0){
                 g2d.setPaint(Color.green);
@@ -584,10 +593,17 @@ public class Arora_TSP_Path_Viewer extends JFrame {
                 }
             }
         }
-        
+        if(displayPortals){
+            if(numPortalPoints > 0){
+                g2d.setPaint(Color.black);
+                for(i=0; i<portalPoint.length; i++){
+                    new_x = (int)portalPoint[i].getX() - (int)(RECTANGLE_SIZE/2);
+                    new_y = (int)portalPoint[i].getY() - (int)(RECTANGLE_SIZE/2);            
+                    g2d.drawRect(new_x, new_y, RECTANGLE_SIZE, RECTANGLE_SIZE);
+                }
+            }
+        }
         if(displayPartitions){
-            
-            // partitions
             if(numPartitions > 0){
                 for(i=0; i<partitionMin.length; i++){
                     p = new Polygon();
@@ -599,124 +615,10 @@ public class Arora_TSP_Path_Viewer extends JFrame {
                     g2d.drawPolygon(p);
                 }
             }
-            
-            // aroraPathPoint
-            if(numAroraPathPoints > 0){
-                g2d.setPaint(Color.black);
-                for(i=0; i<aroraPathPoint.length; i++){
-                    if(aroraPathPoint[i].getType()==PathPoint2D.DATA_POINT){
-                        /*
-                        new_x = (int)aroraPathPoint[i].getX() - (int)(OVAL_DIAMETER/2);
-                        new_y = (int)aroraPathPoint[i].getY() - (int)(OVAL_DIAMETER/2);
-                        g2d.drawOval(new_x, new_y, OVAL_DIAMETER, OVAL_DIAMETER);
-                        * 
-                        */
-                    } else {
-                        
-                        if(aroraPathPoint[i].getType()==PathPoint2D.PORTAL_POINT){
-                            new_x = (int)aroraPathPoint[i].getX() - (int)(RECTANGLE_SIZE/2);
-                            new_y = (int)aroraPathPoint[i].getY() - (int)(RECTANGLE_SIZE/2);
-                            g2d.drawRect(new_x, new_y, RECTANGLE_SIZE, RECTANGLE_SIZE);
-                        }
-                     
-                    }
-
-                }
-
-            }
-            
         }
-        
-        if(displayPartitionsAndPortals){
-
-            // portalPoint
-            if(numPortalPoints > 0){
-                g2d.setPaint(Color.black);
-                for(i=0; i<portalPoint.length; i++){
-                    new_x = (int)portalPoint[i].getX() - (int)(RECTANGLE_SIZE/2);
-                    new_y = (int)portalPoint[i].getY() - (int)(RECTANGLE_SIZE/2);            
-                    g2d.drawRect(new_x, new_y, RECTANGLE_SIZE, RECTANGLE_SIZE);
-                }
-            }
-            
-            // partitions
-            if(numPartitions > 0){
-                for(i=0; i<partitionMin.length; i++){
-                    p = new Polygon();
-                    p.addPoint((int)partitionMin[i].getX(), (int)partitionMin[i].getY());
-                    p.addPoint((int)partitionMin[i].getX(), (int)partitionMax[i].getY());
-                    p.addPoint((int)partitionMax[i].getX(), (int)partitionMax[i].getY());
-                    p.addPoint((int)partitionMax[i].getX(), (int)partitionMin[i].getY());
-                    p.addPoint((int)partitionMin[i].getX(), (int)partitionMin[i].getY());            
-                    g2d.drawPolygon(p);
-                }
-            }
-            
-            // aroraPathPoint
-            if(numAroraPathPoints > 0){
-                g2d.setPaint(Color.black);
-                for(i=0; i<aroraPathPoint.length; i++){
-                    if(aroraPathPoint[i].getType()==PathPoint2D.DATA_POINT){
-                        new_x = (int)aroraPathPoint[i].getX() - (int)(OVAL_DIAMETER/2);
-                        new_y = (int)aroraPathPoint[i].getY() - (int)(OVAL_DIAMETER/2);
-                        g2d.drawOval(new_x, new_y, OVAL_DIAMETER, OVAL_DIAMETER);
-                    } else {
-                        if(aroraPathPoint[i].getType()==PathPoint2D.PORTAL_POINT){
-                            new_x = (int)aroraPathPoint[i].getX() - (int)(RECTANGLE_SIZE/2);
-                            new_y = (int)aroraPathPoint[i].getY() - (int)(RECTANGLE_SIZE/2);
-                            g2d.drawRect(new_x, new_y, RECTANGLE_SIZE, RECTANGLE_SIZE);
-                        }
-                    }
-
-                }
-
-            }
-            
-        }
-        
-        
         if(displayAroraPath){
-            
-            // portalPoint
-            if(numPortalPoints > 0){
-                g2d.setPaint(Color.black);
-                for(i=0; i<portalPoint.length; i++){
-                    new_x = (int)portalPoint[i].getX() - (int)(RECTANGLE_SIZE/2);
-                    new_y = (int)portalPoint[i].getY() - (int)(RECTANGLE_SIZE/2);            
-                    g2d.drawRect(new_x, new_y, RECTANGLE_SIZE, RECTANGLE_SIZE);
-                }
-            }
-            
-            // partitions
-            if(numPartitions > 0){
-                for(i=0; i<partitionMin.length; i++){
-                    p = new Polygon();
-                    p.addPoint((int)partitionMin[i].getX(), (int)partitionMin[i].getY());
-                    p.addPoint((int)partitionMin[i].getX(), (int)partitionMax[i].getY());
-                    p.addPoint((int)partitionMax[i].getX(), (int)partitionMax[i].getY());
-                    p.addPoint((int)partitionMax[i].getX(), (int)partitionMin[i].getY());
-                    p.addPoint((int)partitionMin[i].getX(), (int)partitionMin[i].getY());            
-                    g2d.drawPolygon(p);
-                }
-            }
-
-            // aroraPathPoint
             if(numAroraPathPoints > 0){
                 g2d.setPaint(Color.red);
-                for(i=0; i<aroraPathPoint.length; i++){
-                    if(aroraPathPoint[i].getType()==PathPoint2D.DATA_POINT){
-                        new_x = (int)aroraPathPoint[i].getX() - (int)(OVAL_DIAMETER/2);
-                        new_y = (int)aroraPathPoint[i].getY() - (int)(OVAL_DIAMETER/2);
-                        g2d.drawOval(new_x, new_y, OVAL_DIAMETER, OVAL_DIAMETER);
-                    } else {
-                        if(aroraPathPoint[i].getType()==PathPoint2D.PORTAL_POINT){
-                            new_x = (int)aroraPathPoint[i].getX() - (int)(RECTANGLE_SIZE/2);
-                            new_y = (int)aroraPathPoint[i].getY() - (int)(RECTANGLE_SIZE/2);
-                            g2d.drawRect(new_x, new_y, RECTANGLE_SIZE, RECTANGLE_SIZE);
-                        }                
-                    }
-
-                }
                 p = new Polygon();
                 for(i=0; i<aroraPathPoint.length; i++){
                     p.addPoint( (int)aroraPathPoint[i].getX(), 
@@ -724,8 +626,8 @@ public class Arora_TSP_Path_Viewer extends JFrame {
                 }
                 g2d.drawPolygon(p);
             }
-            
-            // aroraTourPoint
+        }
+        if(displayAroraTour){
             if(numAroraTourPoints > 0){
                 g2d.setPaint(Color.green);
                 p = new Polygon();
@@ -735,22 +637,8 @@ public class Arora_TSP_Path_Viewer extends JFrame {
                 }
                 g2d.drawPolygon(p);
             }
-                
-        }
-        if(displayAco){
-            // acoTourPoint
-            if(numAcoTourPoints > 0){
-                g2d.setPaint(Color.ORANGE);
-                p = new Polygon();
-                for(i=0; i<acoTourPoint.length; i++){
-                    p.addPoint( (int)acoTourPoint[i].getX(), 
-                                (int)acoTourPoint[i].getY() );
-                }
-                g2d.drawPolygon(p);
-            }
         }
         if(displayConcorde){
-            // concordeTourPoint
             if(numConcordeTourPoints > 0){
                 g2d.setPaint(Color.ORANGE);
                 p = new Polygon();
@@ -761,8 +649,18 @@ public class Arora_TSP_Path_Viewer extends JFrame {
                 g2d.drawPolygon(p);
             }
         }
+        if(displayAco){
+            if(numAcoTourPoints > 0){
+                g2d.setPaint(Color.ORANGE);
+                p = new Polygon();
+                for(i=0; i<acoTourPoint.length; i++){
+                    p.addPoint( (int)acoTourPoint[i].getX(), 
+                                (int)acoTourPoint[i].getY() );
+                }
+                g2d.drawPolygon(p);
+            }
+        }
         if(displayOptimal){
-            // optimalTourPoint
             if(numOptimalTourPoints > 0){
                 g2d.setPaint(Color.MAGENTA);
                 p = new Polygon();
@@ -774,6 +672,118 @@ public class Arora_TSP_Path_Viewer extends JFrame {
             }
         }
         
+        //====================
+            
+            // aroraPathPoint
+//            if(numAroraPathPoints > 0){
+//                g2d.setPaint(Color.black);
+//                for(i=0; i<aroraPathPoint.length; i++){
+//                    if(aroraPathPoint[i].getType()==PathPoint2D.DATA_POINT){
+                        /*
+                        new_x = (int)aroraPathPoint[i].getX() - (int)(OVAL_DIAMETER/2);
+                        new_y = (int)aroraPathPoint[i].getY() - (int)(OVAL_DIAMETER/2);
+                        g2d.drawOval(new_x, new_y, OVAL_DIAMETER, OVAL_DIAMETER);
+                        * 
+                        */
+//                    } else {
+//                        
+//                        if(aroraPathPoint[i].getType()==PathPoint2D.PORTAL_POINT){
+//                            new_x = (int)aroraPathPoint[i].getX() - (int)(RECTANGLE_SIZE/2);
+//                            new_y = (int)aroraPathPoint[i].getY() - (int)(RECTANGLE_SIZE/2);
+//                            g2d.drawRect(new_x, new_y, RECTANGLE_SIZE, RECTANGLE_SIZE);
+//                        }
+//                     
+//                    }
+//
+//                }
+//
+//            }
+//            
+//        }
+        
+//        if(displayPortals){
+//            if(numPortalPoints > 0){
+//                g2d.setPaint(Color.black);
+//                for(i=0; i<portalPoint.length; i++){
+//                    new_x = (int)portalPoint[i].getX() - (int)(RECTANGLE_SIZE/2);
+//                    new_y = (int)portalPoint[i].getY() - (int)(RECTANGLE_SIZE/2);            
+//                    g2d.drawRect(new_x, new_y, RECTANGLE_SIZE, RECTANGLE_SIZE);
+//                }
+//            }
+//            if(numPartitions > 0){
+//                for(i=0; i<partitionMin.length; i++){
+//                    p = new Polygon();
+//                    p.addPoint((int)partitionMin[i].getX(), (int)partitionMin[i].getY());
+//                    p.addPoint((int)partitionMin[i].getX(), (int)partitionMax[i].getY());
+//                    p.addPoint((int)partitionMax[i].getX(), (int)partitionMax[i].getY());
+//                    p.addPoint((int)partitionMax[i].getX(), (int)partitionMin[i].getY());
+//                    p.addPoint((int)partitionMin[i].getX(), (int)partitionMin[i].getY());            
+//                    g2d.drawPolygon(p);
+//                }
+//            }
+//            if(numAroraPathPoints > 0){
+//                g2d.setPaint(Color.black);
+//                for(i=0; i<aroraPathPoint.length; i++){
+//                    if(aroraPathPoint[i].getType()==PathPoint2D.DATA_POINT){
+//                        new_x = (int)aroraPathPoint[i].getX() - (int)(OVAL_DIAMETER/2);
+//                        new_y = (int)aroraPathPoint[i].getY() - (int)(OVAL_DIAMETER/2);
+//                        g2d.drawOval(new_x, new_y, OVAL_DIAMETER, OVAL_DIAMETER);
+//                    } else {
+//                        if(aroraPathPoint[i].getType()==PathPoint2D.PORTAL_POINT){
+//                            new_x = (int)aroraPathPoint[i].getX() - (int)(RECTANGLE_SIZE/2);
+//                            new_y = (int)aroraPathPoint[i].getY() - (int)(RECTANGLE_SIZE/2);
+//                            g2d.drawRect(new_x, new_y, RECTANGLE_SIZE, RECTANGLE_SIZE);
+//                        }
+//                    }
+//                }
+//            }
+//        }
+        
+        
+//        if(displayAroraPath){
+//            if(numPortalPoints > 0){
+//                g2d.setPaint(Color.black);
+//                for(i=0; i<portalPoint.length; i++){
+//                    new_x = (int)portalPoint[i].getX() - (int)(RECTANGLE_SIZE/2);
+//                    new_y = (int)portalPoint[i].getY() - (int)(RECTANGLE_SIZE/2);            
+//                    g2d.drawRect(new_x, new_y, RECTANGLE_SIZE, RECTANGLE_SIZE);
+//                }
+//            }
+//            if(numPartitions > 0){
+//                for(i=0; i<partitionMin.length; i++){
+//                    p = new Polygon();
+//                    p.addPoint((int)partitionMin[i].getX(), (int)partitionMin[i].getY());
+//                    p.addPoint((int)partitionMin[i].getX(), (int)partitionMax[i].getY());
+//                    p.addPoint((int)partitionMax[i].getX(), (int)partitionMax[i].getY());
+//                    p.addPoint((int)partitionMax[i].getX(), (int)partitionMin[i].getY());
+//                    p.addPoint((int)partitionMin[i].getX(), (int)partitionMin[i].getY());            
+//                    g2d.drawPolygon(p);
+//                }
+//            }
+//            if(numAroraPathPoints > 0){
+//                g2d.setPaint(Color.red);
+//                for(i=0; i<aroraPathPoint.length; i++){
+//                    if(aroraPathPoint[i].getType()==PathPoint2D.DATA_POINT){
+//                        new_x = (int)aroraPathPoint[i].getX() - (int)(OVAL_DIAMETER/2);
+//                        new_y = (int)aroraPathPoint[i].getY() - (int)(OVAL_DIAMETER/2);
+//                        g2d.drawOval(new_x, new_y, OVAL_DIAMETER, OVAL_DIAMETER);
+//                    } else {
+//                        if(aroraPathPoint[i].getType()==PathPoint2D.PORTAL_POINT){
+//                            new_x = (int)aroraPathPoint[i].getX() - (int)(RECTANGLE_SIZE/2);
+//                            new_y = (int)aroraPathPoint[i].getY() - (int)(RECTANGLE_SIZE/2);
+//                            g2d.drawRect(new_x, new_y, RECTANGLE_SIZE, RECTANGLE_SIZE);
+//                        }                
+//                    }
+//
+//                }
+//                p = new Polygon();
+//                for(i=0; i<aroraPathPoint.length; i++){
+//                    p.addPoint( (int)aroraPathPoint[i].getX(), 
+//                                (int)aroraPathPoint[i].getY() );
+//                }
+//                g2d.drawPolygon(p);
+//            }
+//        }
     }
     
     public static void main( String[] args ) throws FileNotFoundException, IOException {
