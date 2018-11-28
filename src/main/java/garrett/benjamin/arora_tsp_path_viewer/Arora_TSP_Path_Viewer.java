@@ -31,8 +31,7 @@ public class Arora_TSP_Path_Viewer extends JFrame {
   private final String DISPLAY_PARTITIONS = "Display Partitions";
   private boolean displayPartitions;
 
-  private final String DISPLAY_PORTALS
-          = "Display Portals";
+  private final String DISPLAY_PORTALS = "Display Portals";
   private boolean displayPortals;
 
   private final String DISPLAY_ARORA_TOUR = "Display Arora Tour";
@@ -243,14 +242,14 @@ public class Arora_TSP_Path_Viewer extends JFrame {
       /* data points */
       if (result[0].compareTo(DATA_POINTS) == 0) {
         System.out.println("Data points found: ");
-        numDataPoints = (new Integer(result[1])).intValue();
+        numDataPoints = Integer.parseInt(result[1]);
         System.out.println("numDataPoints = " + numDataPoints);
         dataPoint = new PathPoint2D[numDataPoints];
         for (i = 0; i < numDataPoints; i++) {
           s = br.readLine();
           result = s.split("\\s");
-          x = new Double(result[0]);
-          y = new Double(result[1]);
+          x = Double.parseDouble(result[0]);
+          y = Double.parseDouble(result[1]);
           dataPoint[i] = new PathPoint2D(PathPoint2D.DATA_POINT);
           dataPoint[i].setLocation(x.doubleValue(), y.doubleValue());
         }
@@ -258,14 +257,14 @@ public class Arora_TSP_Path_Viewer extends JFrame {
       /* portal points */
       if (result[0].compareTo(PORTALS) == 0) {
         System.out.print("Portals found: ");
-        numPortalPoints = (new Integer(result[1])).intValue();
+        numPortalPoints = Integer.parseInt(result[1]);
         System.out.println("numPortalPoints = " + numPortalPoints);
         portalPoint = new PathPoint2D[numPortalPoints];
         for (i = 0; i < numPortalPoints; i++) {
           s = br.readLine();
           result = s.split("\\s");
-          x1 = new Double(result[0]);
-          y1 = new Double(result[1]);
+          x1 = Double.parseDouble(result[0]);
+          y1 = Double.parseDouble(result[1]);
           portalPoint[i] = new PathPoint2D(PathPoint2D.PORTAL_POINT);
           portalPoint[i].setLocation(x1, y1);
         }
@@ -273,17 +272,17 @@ public class Arora_TSP_Path_Viewer extends JFrame {
       /* partitions */
       if (result[0].compareTo(PARTITIONS) == 0) {
         System.out.print("Partitions found: ");
-        numPartitions = (new Integer(result[1])).intValue();
+        numPartitions = Integer.parseInt(result[1]);
         System.out.println("numPartitions = " + numPartitions);
         partitionMin = new PathPoint2D[numPartitions];
         partitionMax = new PathPoint2D[numPartitions];
         for (i = 0; i < numPartitions; i++) {
           s = br.readLine();
           result = s.split("\\s");
-          x1 = new Double(result[0]);
-          y1 = new Double(result[1]);
-          x2 = new Double(result[2]);
-          y2 = new Double(result[3]);
+          x1 = Double.parseDouble(result[0]);
+          y1 = Double.parseDouble(result[1]);
+          x2 = Double.parseDouble(result[2]);
+          y2 = Double.parseDouble(result[3]);
           partitionMin[i] = new PathPoint2D(PathPoint2D.PARTITION);
           partitionMax[i] = new PathPoint2D(PathPoint2D.PARTITION);
           partitionMin[i].setLocation(x1, y1);
@@ -293,15 +292,15 @@ public class Arora_TSP_Path_Viewer extends JFrame {
       /* arora path */
       if (result[0].compareTo(ARORA_PATH) == 0) {
         System.out.print("Arora path found: ");
-        numAroraPathPoints = (new Integer(result[1])).intValue();
+        numAroraPathPoints = Integer.parseInt(result[1]);
         System.out.println("numAroraPathPoints = " + numAroraPathPoints);
         aroraPathPoint = new PathPoint2D[numAroraPathPoints];
         for (i = 0; i < numAroraPathPoints; i++) {
           s = br.readLine();
           result = s.split("\\s");
-          x = new Double(result[0]);
-          y = new Double(result[1]);
-          t = new Integer(result[2]);
+          x = Double.parseDouble(result[0]);
+          y = Double.parseDouble(result[1]);
+          t = Integer.parseInt(result[2]);
           System.out.println("i=" + i + " x=" + x + " y=" + y + " t = " + t);
           if (t.intValue() == PathPoint2D.DATA_POINT) {
             System.out.println("instantiating new DATA_POINT");
@@ -321,14 +320,14 @@ public class Arora_TSP_Path_Viewer extends JFrame {
       /* arora tour */
       if (result[0].compareTo(ARORA_TOUR) == 0) {
         System.out.print("Arora tour points found: ");
-        numAroraTourPoints = (new Integer(result[1])).intValue();
+        numAroraTourPoints = Integer.parseInt(result[1]);
         System.out.println("numAroraTourPoints = " + numAroraTourPoints);
         aroraTourPoint = new PathPoint2D[numAroraTourPoints];
         for (i = 0; i < numAroraTourPoints; i++) {
           s = br.readLine();
           result = s.split("\\s");
-          x1 = new Double(result[0]);
-          y1 = new Double(result[1]);
+          x1 = Double.parseDouble(result[0]);
+          y1 = Double.parseDouble(result[1]);
           aroraTourPoint[i] = new PathPoint2D(PathPoint2D.DATA_POINT);
           aroraTourPoint[i].setLocation(x1, y1);
         }
@@ -336,14 +335,14 @@ public class Arora_TSP_Path_Viewer extends JFrame {
       /* optimal tour */
       if (result[0].compareTo(OPTIMAL_TOUR) == 0) {
         System.out.print("Optimal tour points found: ");
-        numOptimalTourPoints = (new Integer(result[1])).intValue();
+        numOptimalTourPoints = Integer.parseInt(result[1]);
         System.out.println("numOptimalTourPoints = " + numOptimalTourPoints);
         optimalTourPoint = new PathPoint2D[numOptimalTourPoints];
         for (i = 0; i < numOptimalTourPoints; i++) {
           s = br.readLine();
           result = s.split("\\s");
-          x1 = new Double(result[0]);
-          y1 = new Double(result[1]);
+          x1 = Double.parseDouble(result[0]);
+          y1 = Double.parseDouble(result[1]);
           optimalTourPoint[i] = new PathPoint2D(PathPoint2D.DATA_POINT);
           optimalTourPoint[i].setLocation(x1, y1);
         }
@@ -351,14 +350,14 @@ public class Arora_TSP_Path_Viewer extends JFrame {
       /* concorde tour */
       if (result[0].compareTo(CONCORDE_TOUR) == 0) {
         System.out.print("Concorde tour points found: ");
-        numConcordeTourPoints = (new Integer(result[1])).intValue();
+        numConcordeTourPoints = Integer.parseInt(result[1]);
         System.out.println("numAcoTourPoints = " + numConcordeTourPoints);
         concordeTourPoint = new PathPoint2D[numConcordeTourPoints];
         for (i = 0; i < numConcordeTourPoints; i++) {
           s = br.readLine();
           result = s.split("\\s");
-          x1 = new Double(result[0]);
-          y1 = new Double(result[1]);
+          x1 = Double.parseDouble(result[0]);
+          y1 = Double.parseDouble(result[1]);
           concordeTourPoint[i] = new PathPoint2D(PathPoint2D.DATA_POINT);
           concordeTourPoint[i].setLocation(x1, y1);
         }
@@ -366,14 +365,14 @@ public class Arora_TSP_Path_Viewer extends JFrame {
       /* aco tour */
       if (result[0].compareTo(ACO_TOUR) == 0) {
         System.out.print("ACO tour points found: ");
-        numAcoTourPoints = (new Integer(result[1])).intValue();
+        numAcoTourPoints = Integer.parseInt(result[1]);
         System.out.println("numAcoTourPoints = " + numAcoTourPoints);
         acoTourPoint = new PathPoint2D[numAcoTourPoints];
         for (i = 0; i < numAcoTourPoints; i++) {
           s = br.readLine();
           result = s.split("\\s");
-          x1 = new Double(result[0]);
-          y1 = new Double(result[1]);
+          x1 = Double.parseDouble(result[0]);
+          y1 = Double.parseDouble(result[1]);
           acoTourPoint[i] = new PathPoint2D(PathPoint2D.DATA_POINT);
           acoTourPoint[i].setLocation(x1, y1);
         }
